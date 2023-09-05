@@ -18,15 +18,15 @@ Follow these steps to run the AISHub web application:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/ais-hub-web-app.git
-   cd ais-hub-web-app
+   git clone https://github.com/NgTrThanh/IrishScottishShipMap.git
+   cd IrishScottishShipMap
    ```
 
    Replace `yourusername` and `ais-hub-web-app` with your actual repository information.
 
 2. **Environment Configuration**
 
-   Create a `.env` file in the project directory with your AISHub credentials and geographical coordinates:
+   Update environment section of the docker-compose.yml file in the project directory with your AISHub credentials and geographical coordinates:
 
    ```ini
    AISHUB_USERNAME=Your_AISHub_Username
@@ -43,7 +43,7 @@ Follow these steps to run the AISHub web application:
    Build the Docker container and start the application:
 
    ```bash
-   docker-compose up --build
+   docker-compose up --build -d
    ```
 
 4. **Access the Web Application**
@@ -51,7 +51,7 @@ Follow these steps to run the AISHub web application:
    Once the container is running, you can access the web application in your browser:
 
    - Open your web browser.
-   - Visit `http://localhost:8034` to view the AISHub web application.
+   - Visit `http://localhost:8034` to view the web application.
 
 5. **Using the Application**
 
@@ -60,9 +60,13 @@ Follow these steps to run the AISHub web application:
 
 6. **Stopping the Application**
 
-   To stop the application and the Docker container, press `Ctrl+C` in the terminal where the container is running.
+   To stop the application and the Docker container,
 
-7. **Cleanup**
+   ```bash
+   docker-compose stop
+   ```
+
+8. **Cleanup**
 
    If you wish to remove the Docker container and associated resources, run the following command in the project directory:
 
@@ -77,4 +81,25 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - This application is powered by AISHub (https://www.aishub.net/).
+- ## Acknowledgments
+
+This application is powered by [AISHub](https://www.aishub.net/) and makes use of the following open-source libraries and resources:
+
+- [jQuery](https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js)
+- [Leaflet](https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js)
+- [Leaflet Providers](https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.13.0/leaflet-providers.js)
+- [D3.js](https://d3js.org/d3.v6.min.js)
+- [Leaflet Realtime](https://cdnjs.cloudflare.com/ajax/libs/leaflet-realtime/2.0.0/leaflet-realtime.min.js)
+- [Leaflet MarkerCluster](https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster-src.min.js)
+
+### Map Tile Providers:
+
+- "Toner Lite" by Stamen.TonerLite
+- "Watercolor" by Stamen.Watercolor
+- "Terrain" by Stamen.Terrain
+- "MapTiler Street" by MapTiler.Streets
+- "Jawg Terrain" by Jawg.Terrain
+
+We extend our appreciation to the creators and maintainers of these resources for their contributions to our web application.
+
 
