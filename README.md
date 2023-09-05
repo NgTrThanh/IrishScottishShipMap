@@ -81,8 +81,6 @@ This application is powered by [AISHub](https://www.aishub.net/) and makes use o
 - [jQuery](https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js)
 - [Leaflet](https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js)
 - [Leaflet Providers](https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.13.0/leaflet-providers.js)
-- [D3.js](https://d3js.org/d3.v6.min.js)
-- [Leaflet Realtime](https://cdnjs.cloudflare.com/ajax/libs/leaflet-realtime/2.0.0/leaflet-realtime.min.js)
 - [Leaflet MarkerCluster](https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster-src.min.js)
 
 ### Map Tile Providers:
