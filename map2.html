@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Everything, everywhere, all at once, is ships</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.13.0/leaflet-providers.js" integrity="sha512-pb9UiEEi2JIxkMloqYnqgONe9CTcp2BWWq1Hbz60l7f3R3VhZ57dEE58Ritf/HgBw3o/5Scf5gg0T9V+tf48fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://d3js.org/d3.v6.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-realtime/2.0.0/leaflet-realtime.min.js" type="text/javascript"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.Default.css" />
+		
+        <style>
+            #map {
+            	position: absolute;
+            	top: 0px;
+            	left: 0;
+            	bottom: 0px;
+            	right: 0;
+				}
+				
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map" style="width: 100%; height: calc(100vh - 000px); margin: 0 auto;"></div>
+
+        <select id="layer-select">
+            <option value="tonerlite">Toner</option>
+            <option value="watercolor">Watercolor</option>
+            <option value="terrain">Terrain</option>
+            <option value="OpenTopoMap">Transport</option>
+            <option value="humanitarian">Humanitarian</option>
+			 <option value="jawg_terrain">Jawg_terrain</option>
+        </select>
+
+<script>
+  // Set the initial map center and zoom level
+  const initialCenter = [54,-5.4];
+  const initialZoomLevel = 6;
+
+  // Create the map instance and set the initial view
+  const map = L.map('map').setView(initialCenter, initialZoomLevel);
+
+  // Define the tile layers
+  const tonerliteLayer = L.tileLayer.provider('Stamen.TonerLite');
+  const watercolorLayer = L.tileLayer.provider('Stamen.Watercolor');
+  const terrainLayer = L.tileLayer.provider('Stamen.Terrain');
+  const topoMapLayer = L.tileLayer.provider('OpenTopoMap');
+  const humanitarianLayer = L.tileLayer.provider('OpenStreetMap.HOT');
+  const jawgTerrainLayer = L.tileLayer.provider('Jawg.Terrain', {
+    accessToken: 'qML7E6HmMKb6LQJgxHedkuht58y48dIpzawFGfCXdHzqnZWQlscx5zmyw7uYgTZG'
+  });
+
+  // Add the tile layers to the map
+  const layers = {
+    'Toner Lite': tonerliteLayer,
+    'Watercolor': watercolorLayer,
+    'Terrain': terrainLayer,
+    'Topo Map': topoMapLayer,
+    'Humanitarian': humanitarianLayer,
+    'Jawg Terrain': jawgTerrainLayer
+  };
+
+  jawgTerrainLayer.addTo(map);
+  L.control.layers(layers).addTo(map);
+
+  // Handle the layer select dropdown
+  const layerSelect = document.getElementById('layer-select');
+  layerSelect.addEventListener('change', (event) => {
+    const selectedLayer = event.target.value;
+    for (const layerName in layers) {
+      if (layers.hasOwnProperty(layerName)) {
+        const layer = layers[layerName];
+        if (layerName === selectedLayer) {
+          if (!map.hasLayer(layer)) {
+            layer.addTo(map);
+          }
+        } else {
+          if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+          }
+        }
+      }
+    }
+  });
+
+// Create a marker cluster group
+const markerClusterGroup = L.markerClusterGroup();
+
+async function createMarkers() {
+  try {
+    const response = await fetch('/api/shipsah');
+    const data = await response.json();
+
+    // Clear the existing markers from the map
+    markerClusterGroup.clearLayers();
+
+    const markers = L.geoJSON(data, {
+      onEachFeature: function (feature, layer) {
+        const marker = L.marker(layer.getLatLng()).bindPopup(feature.properties.MMSI);
+        markerClusterGroup.addLayer(marker);
+      }
+    });
+
+    // Add the marker cluster group to the map
+    map.addLayer(markerClusterGroup);
+  } catch (error) {
+    console.error('Error creating markers:', error);
+  }
+}
+
+
+// Call the createMarkers function on load and every 60 seconds
+createMarkers();
+setInterval(createMarkers, 60000);
+
+
+</script>
+
+						
+    </body>
+</html>

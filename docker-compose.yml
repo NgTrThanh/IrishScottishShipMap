@@ -1,0 +1,19 @@
+  
+version: '3.8'
+services:
+  aisahub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aishub
+    ports:
+      - "8034:8033"
+    environment:
+      - AISHUB_USERNAME=AH_XXXX_YYYYYYYY
+      - LAT_MIN=51
+      - LAT_MAX=58
+      - LON_MIN=-10
+      - LON_MAX=-2
+
+    restart: always
+    
