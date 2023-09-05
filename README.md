@@ -1,7 +1,4 @@
 # IrishScottishShipMap
-A most simple ship plotting app
-
-# AISHub Web Application
 
 This is a Dockerized web application that displays AIS (Automatic Identification System) data for ship tracking. It retrieves ship data from AISHub and visualizes it on a map.
 
@@ -22,7 +19,6 @@ Follow these steps to run the AISHub web application:
    cd IrishScottishShipMap
    ```
 
-   Replace `yourusername` and `ais-hub-web-app` with your actual repository information.
 
 2. **Environment Configuration**
 
@@ -43,7 +39,7 @@ Follow these steps to run the AISHub web application:
    Build the Docker container and start the application:
 
    ```bash
-   docker-compose up --build -d
+   docker compose up --build -d
    ```
 
 4. **Access the Web Application**
@@ -63,7 +59,7 @@ Follow these steps to run the AISHub web application:
    To stop the application and the Docker container,
 
    ```bash
-   docker-compose stop
+   docker compose stop
    ```
 
 8. **Cleanup**
@@ -71,7 +67,7 @@ Follow these steps to run the AISHub web application:
    If you wish to remove the Docker container and associated resources, run the following command in the project directory:
 
    ```bash
-   docker-compose down
+   docker compose down
    ```
 
 ## License
@@ -79,9 +75,6 @@ Follow these steps to run the AISHub web application:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
-
-- This application is powered by AISHub (https://www.aishub.net/).
-- ## Acknowledgments
 
 This application is powered by [AISHub](https://www.aishub.net/) and makes use of the following open-source libraries and resources:
 
@@ -101,5 +94,4 @@ This application is powered by [AISHub](https://www.aishub.net/) and makes use o
 - "Jawg Terrain" by Jawg.Terrain
 
 We extend our appreciation to the creators and maintainers of these resources for their contributions to our web application.
-
 
