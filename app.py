@@ -3,6 +3,7 @@ import requests
 import bz2
 import gzip
 import os
+import time
 
 from flask import Flask, jsonify, Response, send_from_directory
 from flask_cors import cross_origin
@@ -24,6 +25,18 @@ LON_MIN = float(os.environ.get('LON_MIN'))
 LON_MAX = float(os.environ.get('LON_MAX'))
 
 url = f'{BASE_URL}?username={USERNAME}&format={FORMAT}&output={OUTPUT}&compress={COMPRESS}&latmin={LAT_MIN}&latmax={LAT_MAX}&lonmin={LON_MIN}&lonmax={LON_MAX}'  
+
+last_refresh_time = 0  # Initialize the last refresh time
+
+@app.before_request
+def check_cache_refresh():
+    global last_refresh_time
+
+    # Check if it's time to refresh the cache (1 minute has passed)
+    current_time = time.time()
+    if current_time - last_refresh_time > 60:
+        cache.clear()  # Clear the cache
+        last_refresh_time = current_time  # Update the last refresh time
 
 @app.route('/api/shipmini')
 @cross_origin()
@@ -74,11 +87,9 @@ def get_ships_geomini():
 
     return response
 
- 
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
-  
-    
+
 if __name__ == '__main__':
     app.run()
