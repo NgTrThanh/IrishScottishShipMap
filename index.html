@@ -49,10 +49,10 @@
                 "Watercolor": L.tileLayer.provider("Stamen.Watercolor"),
                 "Terrain": L.tileLayer.provider("Stamen.Terrain"),
                 "MapTiler Street": L.tileLayer.provider("MapTiler.Streets", {
-                    key: "nRYox0R1ZyZ6XqSStq4S",
+                    key: "YOUR_OWN_KEY",
                 }),
                 "Jawg Terrain": L.tileLayer.provider("Jawg.Terrain", {
-                    accessToken: "qML7E6HmMKb6LQJgxHedkuht58y48dIpzawFGfCXdHzqnZWQlscx5zmyw7uYgTZG",
+                    accessToken: "YOUR_OWN_KEY",
                 }),
             };
 
@@ -217,7 +217,7 @@
 
             async function createMarkers() {
                 try {
-                    const response = await fetch("http://10.0.0.72:8034/api/shipmini");
+                    const response = await fetch("/api/shipmini");
                     const data = await response.json();
 
                     let mmsiCount = 0;
