@@ -23,45 +23,7 @@ LAT_MAX = float(os.environ.get('LAT_MAX'))
 LON_MIN = float(os.environ.get('LON_MIN'))
 LON_MAX = float(os.environ.get('LON_MAX'))
 
-url = f'{BASE_URL}?username={USERNAME}&format={FORMAT}&output={OUTPUT}&compress={COMPRESS}&latmin={LAT_MIN}&latmax={LAT_MAX}&lonmin={LON_MIN}&lonmax={LON_MAX}'
-
-@app.route('/api/shipsah')
-@cross_origin()
-@cache.cached()
-def get_ships():
-    response = requests.get(url)
-    decompressed_data = bz2.decompress(response.content)
-    data = json.loads(decompressed_data)
-
-    # Create a GeoJSON feature for each ship record
-    features = [{
-        'type': 'Feature',
-        'geometry': {
-            'type': 'Point',
-            'coordinates': [float(row['LONGITUDE']), float(row['LATITUDE'])]
-        },
-        'properties': {
-            'MMSI': row['MMSI'],
-            'TSTAMP': row['TIME'],
-            'COG': row['COG'],
-            'SOG': row['SOG'],
-            'HEADING': row['HEADING'],
-            'NAVSTAT': row['NAVSTAT'],
-            'IMO': row['IMO'],
-            'NAME': row['NAME'],
-            'CALLSIGN': row['CALLSIGN'],
-            'TYPE': row['TYPE']
-        }
-    } for row in data[1] if row['LATITUDE'] and row['LONGITUDE']]
-
-    json_data = json.dumps(features)
-    compressed_data = gzip.compress(json_data.encode('utf-8'))
-
-    response = Response(compressed_data, content_type='application/json')
-    response.headers['Content-Encoding'] = 'gzip'
-
-    return response
-    
+url = f'{BASE_URL}?username={USERNAME}&format={FORMAT}&output={OUTPUT}&compress={COMPRESS}&latmin={LAT_MIN}&latmax={LAT_MAX}&lonmin={LON_MIN}&lonmax={LON_MAX}'  
 
 @app.route('/api/shipmini')
 @cross_origin()
@@ -116,10 +78,7 @@ def get_ships_geomini():
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
-
-@app.route('/i2')
-def index2():
-    return send_from_directory('.', 'map2.html')    
+  
     
 if __name__ == '__main__':
     app.run()
